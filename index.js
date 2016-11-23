@@ -128,7 +128,6 @@ const markdown = (res, result) => {
   if (result.issues.length > 0) {
     res.write('**Closed issues**\n');
     result.issues.forEach(issue => res.write(`- ${issue.title} [\\#${issue.number}](${issue.html_url})\n`));
-    res.write('\n');
   }
   
   Object
@@ -136,9 +135,9 @@ const markdown = (res, result) => {
     .map(key => [key, result.prs[key]])
     .filter(([key, prs]) => prs.length > 0)
     .forEach(([kind, pulls]) => {
+      res.write('\n');  
       res.write(`**${changelogItems[kind].title}**\n`);
       pulls.forEach(pr => res.write(`- ${pr.title} [\\#${pr.number}](${pr.html_url}) ([${pr.user.login}](${pr.user.html_url}))\n`));
-      res.write('\n');  
     });
   
   res.end();
